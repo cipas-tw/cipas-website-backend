@@ -1,0 +1,25 @@
+RewriteEngine on
+RewriteBase /
+RewriteCond $1 !^(index\.php|public|log|uploads|robots\.txt|$)
+RewriteRule ^(.*)$ index.php/$1 [L,QSA]
+
+Header unset ETag
+FileETag None
+
+<ifmodule mod_expires.c>
+<filesmatch "\.(ico|jpg|jpeg|png|gif|js|css|swf)$">
+ExpiresActive On
+ExpiresDefault A604800
+</FilesMatch>
+</IfModule>
+
+<filesMatch ".(jpg|jpeg|png|gif|ico|css|js)$">
+Header set Cache-Control "max-age=604800, public"
+</filesMatch>
+
+#壓縮JS和CSS檔
+<IfModule mod_deflate.c>
+<FilesMatch ".(js|css|php)$">
+SetOutputFilter DEFLATE
+</FilesMatch>
+</IfModule>
